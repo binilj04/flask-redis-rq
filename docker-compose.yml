@@ -1,0 +1,27 @@
+version: '3.3'
+# https://testdriven.io/blog/asynchronous-tasks-with-flask-and-redis-queue/
+# https://github.com/mjhea0/flask-redis-queue
+services:
+    app:
+        build: .
+        image: binilj04/flask-redis:0.1
+        command: python app.py run -h 0.0.0.0
+        volumes:
+            - .:/app
+        environment:
+            - FLASK_DEBUG=1
+        depends_on:
+          - redis
+        ports:
+          - 5000:5000
+    worker:
+        image: web
+        build: .
+        command: python manage.py run_worker
+        volumes:
+            - .:/app
+        depends_on: 
+            - redis
+    redis:
+        image: redis:5.0.7-alpine
+        
