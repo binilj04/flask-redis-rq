@@ -11,7 +11,6 @@ def background_task_call(n):
 
     time.sleep(delay*int(n))
 
-    print(len(n))
     print("Task complete")
 
     return n
